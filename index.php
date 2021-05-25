@@ -20,10 +20,22 @@ function whatIsHappening() {
     var_dump($_SESSION);
 }
 
-// 'REQUEST_URI'
-// The URI which was given in order to access this page; for instance, '/index.html'. 
-// CREATED AN IF STATEMENT AND ADDED A LINK TO EACH PRODUCT TO ACCESS IT
-// Did an echo of REQUEST URI in order to find the correct path
+// COOKIES
+$cookie_name = "saved-orders";
+$expire = time() + (86400 * 30);
+
+if (isset($_COOKIE["saved-orders"])){
+    $totalValue = (float)$_COOKIE["saved-orders"];
+}
+else {
+    $totalValue = 0;
+    setcookie($cookie_name,(string)$totalValue,$expire);
+}
+
+
+// PRODUCT PART
+
+if (!isset($_GET["food"])){
 
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
@@ -31,10 +43,11 @@ $products = [
     ['name' => 'Club Cheese & Ham', 'price' => 4],
     ['name' => 'Club Chicken', 'price' => 4],
     ['name' => 'Club Salmon', 'price' => 5]
-];
+]; }
 
 //your products with their price.
-if ($_SERVER['REQUEST_URI'] == "/php-order-form/index.php?food=1"){
+
+elseif ($_GET["food"] == 1) {
     $products = [
         ['name' => 'Club Ham', 'price' => 3.20],
         ['name' => 'Club Cheese', 'price' => 3],
@@ -43,8 +56,7 @@ if ($_SERVER['REQUEST_URI'] == "/php-order-form/index.php?food=1"){
         ['name' => 'Club Salmon', 'price' => 5]
     ];
 }
-
-elseif ($_SERVER['REQUEST_URI'] == "/php-order-form/index.php?food=0") {
+else  {
     $products = [
         ['name' => 'Cola', 'price' => 2],
         ['name' => 'Fanta', 'price' => 2],

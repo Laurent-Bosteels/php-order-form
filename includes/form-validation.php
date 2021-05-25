@@ -6,10 +6,14 @@
 $errors = [];
 $email = $street = $city = $streetnumber = $zipcode = "";
 
-// Calculating delivery 
+// Calculating delivery
+// Setting my timezone
 date_default_timezone_set("Europe/Brussels");
-$express = date("H:i",strtotime("+45minutes"));
-$nonExpress = date("H:i",strtotime("+2hours"));
+// 45 Minute Delivery
+$express = date("H:i", strtotime("+45minutes"));
+// 2 Hours Delivery
+$nonExpress = date("H:i", strtotime("+2hours"));
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -35,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If the value of the name field is not valid, then store an error message:
 
     if (!preg_match("/^[a-zA-Z-' ]*$/", $street)) {
-      $errors['streetErr'] = "* Only letters and white space allowed";
+      $errors['streetErr'] = "* Street can only contain letters and white space";
     } else {
       $_SESSION["street"] = $street;
     }
@@ -47,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = test_input($_POST["city"]);
 
     if (!preg_match("/^[a-zA-Z-' ]*$/", $city)) {
-      $errors['cityErr'] = "* Only letters and white space allowed";
+      $errors['cityErr'] = "* City can only contain letters and white space";
     } else {
       $_SESSION["city"] = $city;
     }
@@ -60,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $streetnumber = test_input($_POST["streetnumber"]);
 
     if (!is_numeric($streetnumber)) {
-      $errors['streetnumberErr'] = "* Only numbers allowed";
+      $errors['streetnumberErr'] = "* Street can only contain numbers";
     } else {
       $_SESSION["streetnumber"] = $streetnumber;
     }
@@ -71,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $zipcode = test_input($_POST["zipcode"]);
     if (!is_numeric($zipcode)) {
-      $errors['zipcodeErr'] = "* Only numbers allowed";
+      $errors['zipcodeErr'] = "* Zipcode can only contain numbers";
     } else {
       $_SESSION["zipcode"] = $zipcode;
     }
@@ -79,6 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Checking if forms are filled in correctly
   // If no errors, then show a success message based on which delivery option is set
+  // If error, foreach in a bootstrap alert.
+
   if (empty($errors)) {
 
     // CHECK THE DELIVERY TIME
@@ -87,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
       echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive $nonExpress</div>";
     }
-  } else { 
+  } else {
     //  Display errors
     foreach ($errors as $val) {
       echo "<div class='alert alert-warning' role='alert'><span class='message'>$val</div>";
