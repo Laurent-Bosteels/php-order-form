@@ -6,6 +6,11 @@
 $errors = [];
 $email = $street = $city = $streetnumber = $zipcode = "";
 
+// Calculating delivery 
+date_default_timezone_set("Europe/Brussels");
+$express = date("H:i",strtotime("+45minutes"));
+$nonExpress = date("H:i",strtotime("+2hours"));
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (empty($_POST["email"])) {
@@ -73,16 +78,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   // Checking if forms are filled in correctly
+  // If no errors, then show a success message based on which delivery option is set
   if (empty($errors)) {
 
     // CHECK THE DELIVERY TIME
     if (isset($_POST['express_delivery'])) {
-      echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive in 45 minutes.</div>";
+      echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive $express</div>";
     } else {
-      echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive in 2 hours.</div>";
+      echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive $nonExpress</div>";
     }
-  } else {
-
+  } else { 
     //  Display errors
     foreach ($errors as $val) {
       echo "<div class='alert alert-warning' role='alert'><span class='message'>$val</div>";
