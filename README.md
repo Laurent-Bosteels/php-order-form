@@ -40,7 +40,7 @@ Should you use a COOKIE or a SESSION variable for this?
 The food items should be the default.
 
 ### Step 4: Calculate the delivery time
-Calculate the expected delivery time for the product. For normal delivery all orders are fulfilled in 2 hours, for express delivery it is only 45 minutes.
+- [x] Calculate the expected delivery time for the product. For normal delivery all orders are fulfilled in 2 hours, for express delivery it is only 45 minutes.
 Add this expected time to the confirmation message.
 If you are wondering: they deliver with drones.
 
