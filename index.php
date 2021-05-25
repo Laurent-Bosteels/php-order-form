@@ -9,7 +9,6 @@ error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
 
-
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
     var_dump($_GET);
@@ -22,7 +21,11 @@ function whatIsHappening() {
 }
 
 
-//your products with their price.
+// 'REQUEST_URI'
+// The URI which was given in order to access this page; for instance, '/index.html'. 
+// CREATED AN IF STATEMENT AND ADDED A LINK TO EACH PRODUCT TO ACCESS IT
+// Did an echo of REQUEST URI in order to find the correct path
+
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
     ['name' => 'Club Cheese', 'price' => 3],
@@ -30,13 +33,24 @@ $products = [
     ['name' => 'Club Chicken', 'price' => 4],
     ['name' => 'Club Salmon', 'price' => 5]
 ];
-
-$products = [
-    ['name' => 'Cola', 'price' => 2],
-    ['name' => 'Fanta', 'price' => 2],
-    ['name' => 'Sprite', 'price' => 2],
-    ['name' => 'Ice-tea', 'price' => 3],
-];
+//your products with their price.
+if ($_SERVER['REQUEST_URI'] == "/php-order-form/?food=1"){
+    $products = [
+        ['name' => 'Club Ham', 'price' => 3.20],
+        ['name' => 'Club Cheese', 'price' => 3],
+        ['name' => 'Club Cheese & Ham', 'price' => 4],
+        ['name' => 'Club Chicken', 'price' => 4],
+        ['name' => 'Club Salmon', 'price' => 5]
+    ];
+}
+elseif ($_SERVER['REQUEST_URI'] == "/php-order-form/?food=0") {
+    $products = [
+        ['name' => 'Cola', 'price' => 2],
+        ['name' => 'Fanta', 'price' => 2],
+        ['name' => 'Sprite', 'price' => 2],
+        ['name' => 'Ice-tea', 'price' => 3],
+    ];
+}
 
 $totalValue = 0;
 
