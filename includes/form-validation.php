@@ -1,13 +1,15 @@
-<?php 
+<?php
 
 // define variables and set to empty values
-$emailErr = $streetErr = $cityErr = $streetnumberErr = $zipcodeErr = "";
+// $emailErr = $streetErr = $cityErr = $streetnumberErr = $zipcodeErr = "";
+
+$errors = [];
 $email = $street = $city = $streetnumber = $zipcode = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  if (empty($_POST["email"])) {
-    $emailErr = "* Email is required";
+  if (empty($_POST["email"]) || !isset($_POST["email"])) {
+    $errors['emailErr'] = "* Email is required";
   } else {
     $email = test_input($_POST["email"]);
 
@@ -15,57 +17,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // In the code below, if the e-mail address is not well-formed, then store an error message:
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $emailErr = "* Invalid email format";
+      $errors['emailErr'] = "* Invalid email format";
+    }
   }
 
-  }
-  
   if (empty($_POST["street"])) {
-    $streetErr = "* Street is required";
+    $errors['streetErr'] = "* Street is required";
   } else {
     $street = test_input($_POST["street"]);
 
     // The code below shows a simple way to check if the name field only contains letters, dashes, apostrophes and whitespaces. 
     // If the value of the name field is not valid, then store an error message:
 
-    if (!preg_match("/^[a-zA-Z-' ]*$/",$street)) {
-      $streetErr = "* Only letters and white space allowed";
+    if (!preg_match("/^[a-zA-Z-' ]*$/", $street)) {
+      $errors['streetErr'] = "* Only letters and white space allowed";
     }
-
   }
-  
+
   if (empty($_POST["city"])) {
-    $cityErr = "* City is required";
+    $errors['cityErr'] = "* City is required";
   } else {
     $city = test_input($_POST["city"]);
 
-    if (!preg_match("/^[a-zA-Z-' ]*$/",$city)) {
-      $cityErr = "* Only letters and white space allowed";
+    if (!preg_match("/^[a-zA-Z-' ]*$/", $city)) {
+      $errors['cityErr'] = "* Only letters and white space allowed";
     }
-
   }
 
   if (empty($_POST["streetnumber"])) {
-    $streetnumberErr = "* Streetnumber is required";
+    $errors['streetnumberErr'] = "* Streetnumber is required";
   } else {
 
     $streetnumber = test_input($_POST["streetnumber"]);
-    
-    if (!is_numeric($streetnumber)) {
-      $streetnumberErr = "* Only numbers allowed";
-    }
 
+    if (!is_numeric($streetnumber)) {
+      $errors['streetnumberErr'] = "* Only numbers allowed";
+    }
   }
 
   if (empty($_POST["zipcode"])) {
-    $zipcodeErr = "* Zipcode is required";
+    $errors['zipcodeErr'] = "* Zipcode is required";
   } else {
     $zipcode = test_input($_POST["zipcode"]);
-
     if (!is_numeric($zipcode)) {
-      $zipcodeErr = "* Only numbers allowed";
+      $errors['zipcodeErr'] = "* Only numbers allowed";
     }
   }
+
+  
+  // Checking if forms are filled in correctly
+  if (empty($errors)) {
+    echo "<div class='alert alert-success' role='alert'><span class='message'>Order sent</div>";
+  } else {
+
+    //  Display errors
+    foreach ($errors as $val) {
+      echo "<div class='alert alert-warning' role='alert'><span class='message'>$val</div>";
+    }
+  }
+
+
 }
 
 // The first thing we will do is to pass all variables through PHP's htmlspecialchars() function.
@@ -78,10 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // The next step is to create a function that will do all the checking
 // Which is much more convenient than writing the same code over and over again.
 
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
+function test_input($data)
+{
+  $data = trim($data); // Strip whitespace (or other characters) from the beginning and end of a string
+  $data = stripslashes($data); // Unquotes a quoted string
+  $data = htmlspecialchars($data); // Convert special characters to HTML entities
   return $data;
 }
 
@@ -102,4 +114,3 @@ function test_input($data) {
 // NEXT STEP: how to keep the values in the input fields when the user hits the submit button.
 // To show the values in the input fields after the user hits the submit button
 // We add a little PHP script inside the value attribute of the input fields
-
