@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-  if (empty($_POST["city"])|| !isset($_POST["city"])) {
+  if (empty($_POST["city"]) || !isset($_POST["city"])) {
     $errors['cityErr'] = "* City is required";
   } else {
     $city = test_input($_POST["city"]);
@@ -74,7 +74,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Checking if forms are filled in correctly
   if (empty($errors)) {
-    echo "<div class='alert alert-success' role='alert'><span class='message'>Order sent</div>";
+
+    // CHECK THE DELIVERY TIME
+    if (isset($_POST['express_delivery'])) {
+      echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive in 45 minutes.</div>";
+    } else {
+      echo "<div class='alert alert-success' role='alert'>Order sent. The delivery will arrive in 2 hours.</div>";
+    }
   } else {
 
     //  Display errors
@@ -105,7 +111,6 @@ function test_input($data)
 // In the following code we have added some new variables: 
 // $emailErr = $streetErr = $cityErr = $streetnumberErr = $zipcodeErr
 // These error variables will hold error messages for the required fields.
-
 
 // Also added an if else statement for each $_POST variable. 
 // This checks if the $_POST variable is empty (with the PHP empty() function). 
