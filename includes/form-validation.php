@@ -8,7 +8,7 @@ $email = $street = $city = $streetnumber = $zipcode = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  if (empty($_POST["email"]) || !isset($_POST["email"])) {
+  if (empty($_POST["email"])) {
     $errors['emailErr'] = "* Email is required";
   } else {
     $email = test_input($_POST["email"]);
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-  if (empty($_POST["street"])) {
+  if (empty($_POST["street"]) || !isset($_POST["street"])) {
     $errors['streetErr'] = "* Street is required";
   } else {
     $street = test_input($_POST["street"]);
@@ -31,20 +31,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!preg_match("/^[a-zA-Z-' ]*$/", $street)) {
       $errors['streetErr'] = "* Only letters and white space allowed";
+    } else {
+      $_SESSION["street"] = $street;
     }
   }
 
-  if (empty($_POST["city"])) {
+  if (empty($_POST["city"])|| !isset($_POST["city"])) {
     $errors['cityErr'] = "* City is required";
   } else {
     $city = test_input($_POST["city"]);
 
     if (!preg_match("/^[a-zA-Z-' ]*$/", $city)) {
       $errors['cityErr'] = "* Only letters and white space allowed";
+    } else {
+      $_SESSION["city"] = $city;
     }
   }
 
-  if (empty($_POST["streetnumber"])) {
+  if (empty($_POST["streetnumber"]) || !isset($_POST["streetnumber"])) {
     $errors['streetnumberErr'] = "* Streetnumber is required";
   } else {
 
@@ -52,19 +56,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!is_numeric($streetnumber)) {
       $errors['streetnumberErr'] = "* Only numbers allowed";
+    } else {
+      $_SESSION["streetnumber"] = $streetnumber;
     }
   }
 
-  if (empty($_POST["zipcode"])) {
+  if (empty($_POST["zipcode"]) || !isset($_POST["zipcode"])) {
     $errors['zipcodeErr'] = "* Zipcode is required";
   } else {
     $zipcode = test_input($_POST["zipcode"]);
     if (!is_numeric($zipcode)) {
       $errors['zipcodeErr'] = "* Only numbers allowed";
+    } else {
+      $_SESSION["zipcode"] = $zipcode;
     }
   }
 
-  
   // Checking if forms are filled in correctly
   if (empty($errors)) {
     echo "<div class='alert alert-success' role='alert'><span class='message'>Order sent</div>";
@@ -75,8 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo "<div class='alert alert-warning' role='alert'><span class='message'>$val</div>";
     }
   }
-
-
 }
 
 // The first thing we will do is to pass all variables through PHP's htmlspecialchars() function.

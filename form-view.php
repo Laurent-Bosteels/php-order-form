@@ -27,7 +27,6 @@
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
                 <input type="text" id="email" name="email" class="form-control" value="<?php echo $email;?>"/>
-                <span class="error"></span>
             </div>
             <div></div>
         </div>
@@ -38,25 +37,21 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value="<?php echo $street;?>">
-                    <span class="error"></span>
+                    <input type="text" name="street" id="street" class="form-control" value="<?php echo $_SESSION["street"]?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php echo $streetnumber;?>">
-                    <span class="error"></span>
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php echo $_SESSION["streetnumber"]?>">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value="<?php echo $city;?>">
-                    <span class="error"></span>
+                    <input type="text" id="city" name="city" class="form-control" value="<?php echo $_SESSION["city"]?>">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php echo $zipcode;?>">
-                    <span class="error"></span>
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php echo $_SESSION["zipcode"]?>">
                 </div>
             </div>
         </fieldset>
@@ -74,7 +69,7 @@
             <input type="checkbox" name="express_delivery" value="5" /> 
             Express delivery (+ 5 EUR) 
         </label>
-        
+
         <button type="submit" class="btn btn-primary">Order!</button>
     </form>
 
