@@ -9,7 +9,8 @@ error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
 
-function whatIsHappening() {
+function whatIsHappening()
+{
     echo '<h2>$_GET</h2>';
     var_dump($_GET);
     echo '<h2>$_POST</h2>';
@@ -20,30 +21,18 @@ function whatIsHappening() {
     var_dump($_SESSION);
 }
 
-// COOKIES
-$cookie_name = "saved-orders";
-$expire = time() + (86400 * 30);
-
-if (isset($_COOKIE["saved-orders"])){
-    $totalValue = (float)$_COOKIE["saved-orders"];
-}
-else {
-    $totalValue = 0;
-    setcookie($cookie_name,(string)$totalValue,$expire);
-}
-
-
 // PRODUCT PART
 
-if (!isset($_GET["food"])){
+if (!isset($_GET["food"])) {
 
-$products = [
-    ['name' => 'Club Ham', 'price' => 3.20],
-    ['name' => 'Club Cheese', 'price' => 3],
-    ['name' => 'Club Cheese & Ham', 'price' => 4],
-    ['name' => 'Club Chicken', 'price' => 4],
-    ['name' => 'Club Salmon', 'price' => 5]
-]; }
+    $products = [
+        ['name' => 'Club Ham', 'price' => 3.20],
+        ['name' => 'Club Cheese', 'price' => 3],
+        ['name' => 'Club Cheese & Ham', 'price' => 4],
+        ['name' => 'Club Chicken', 'price' => 4],
+        ['name' => 'Club Salmon', 'price' => 5]
+    ];
+}
 
 //your products with their price.
 
@@ -55,8 +44,7 @@ elseif ($_GET["food"] == 1) {
         ['name' => 'Club Chicken', 'price' => 4],
         ['name' => 'Club Salmon', 'price' => 5]
     ];
-}
-else  {
+} else {
     $products = [
         ['name' => 'Cola', 'price' => 2],
         ['name' => 'Fanta', 'price' => 2],
@@ -65,7 +53,17 @@ else  {
     ];
 }
 
-$totalValue = 0;
+if (isset($_POST['express_delivery'])) {
+    $totalValue += 5;
+}
+
+// PRICE CALCULATION, COOKIES
+
+if (!isset($_COOKIE["total"])) {
+    $totalValue = "0";
+} else {
+    $totalValue = $_COOKIE["total"];
+}
 
 require 'includes/form-validation.php';
 require 'form-view.php';

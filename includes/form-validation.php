@@ -7,6 +7,7 @@ $errors = [];
 $email = $street = $city = $streetnumber = $zipcode = "";
 
 // Calculating delivery
+
 // Setting my timezone
 date_default_timezone_set("Europe/Brussels");
 // 45 Minute Delivery
@@ -135,3 +136,14 @@ function test_input($data)
 // NEXT STEP: how to keep the values in the input fields when the user hits the submit button.
 // To show the values in the input fields after the user hits the submit button
 // We add a little PHP script inside the value attribute of the input fields
+
+// ADD THE PRICE PER PRODUCT TO THE TOTAL VALUE
+
+if (!empty($_POST['products'])) {
+  foreach ($_POST['products'] as $i => $product) {
+      $totalValue += $products[$i]['price'];
+  }
+}
+
+setcookie('total', strval($totalValue));
+
