@@ -4,6 +4,7 @@
 // $emailErr = $streetErr = $cityErr = $streetnumberErr = $zipcodeErr = "";
 
 $errors = [];
+$checked = [];
 $email = $street = $city = $streetnumber = $zipcode = "";
 
 // Calculating delivery
@@ -14,7 +15,6 @@ date_default_timezone_set("Europe/Brussels");
 $express = date("H:i", strtotime("+45minutes"));
 // 2 Hours Delivery
 $nonExpress = date("H:i", strtotime("+2hours"));
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -81,6 +81,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION["zipcode"] = $zipcode;
     }
   }
+
+  if (!empty($_POST["products"])) {
+    $checked= $_POST["products"];
+    }
+
+    if (empty($checked)) {
+        $errors['checkedErr'] = "* You didn't select any products!";
+    }
 
   // Checking if forms are filled in correctly
   // If no errors, then show a success message based on which delivery option is set
